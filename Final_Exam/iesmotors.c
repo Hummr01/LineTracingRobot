@@ -89,7 +89,7 @@ void setDutyCycle(uint8_t pin, uint8_t value) {
   
   */
 
-  void motors_steering(){
+  void follow_line(){
     
     while(1){
 
@@ -119,14 +119,14 @@ void setDutyCycle(uint8_t pin, uint8_t value) {
     if (adcValue0 > THRESHOLD_LEFT_LFS) {
       
       setDutyCycle(PD5, SPEED_HALF);
-      
-      PORTD |= (1 << LEFT_FORWARD);
+      PORTD =  0;     
+      PORTD |= LEFT_FORWARD;
 
       }
     if (adcValue0 < THRESHOLD_LEFT_LFS) {
       setDutyCycle(PD5, 0);
 
-      PORTD &= ~(1 << LEFT_FORWARD);
+      PORTD &= ~LEFT_FORWARD;
       
       } 
     
@@ -135,14 +135,14 @@ void setDutyCycle(uint8_t pin, uint8_t value) {
       
       setDutyCycle(PD6, SPEED_HALF);
       
-      PORTD |= (1 << RIGHT_FORWARD);
+      PORTB |= RIGHT_FORWARD;
 
       }
 
     if (adcValue2 < THRESHOLD_RIGHT_LFS) {
       
       setDutyCycle(PD6, 0);
-      PORTD &= ~(1 << RIGHT_FORWARD);
+      PORTB &= ~RIGHT_FORWARD;
       
       } 
     }

@@ -29,7 +29,7 @@ int main(void){
 
     robot_init();
 
-    motors_steering();
+    follow_line();
 
     return 0;
 

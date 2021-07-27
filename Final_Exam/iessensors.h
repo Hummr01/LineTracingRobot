@@ -35,7 +35,6 @@ uint16_t ADC_Read_Avg(uint8_t channel, uint8_t nsamples);
  * Checks the state of the robot on the line.
  * 
  */
-
  void check_state();
 
 

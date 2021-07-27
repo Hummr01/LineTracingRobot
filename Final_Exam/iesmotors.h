@@ -8,10 +8,10 @@
 #define ENB DD6
 
 /*Direction input*/
-#define LEFT_FORWARD PD7
-#define LEFT_BACKWARD PB0
-#define RIGHT_FORWARD PB3
-#define RIGHT_BACKWARD PB
+#define LEFT_FORWARD (1 << PD7)
+#define LEFT_BACKWARD (1 << PB0)
+#define RIGHT_FORWARD (1 << PB3)
+#define RIGHT_BACKWARD (1 << PB1)
 
 /*Settings for the ADC if the ADC is abough a certain threshold it is on 1 otherwise 0*/
 #define THRESHOLD_LEFT_LFS 512
@@ -35,7 +35,7 @@ void motors_init();
  * Steering logic depending on the state given by check_state.
  */
 
-void motors_steering();
+void follow_line();
 
 #endif
 

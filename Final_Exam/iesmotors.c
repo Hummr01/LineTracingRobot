@@ -1,14 +1,8 @@
 #include "iesmotors.h"
 #include "iesusart.h"
-#include "line_tracing.h"
+#include "iessensors.h"
 #include <util/delay.h>
 #include <stdio.h>
-
-
-
-void test_print(){
-  USART_print("TEST");
-}
 
 
 /* sets up timer 0 (8 bit) */
@@ -78,15 +72,22 @@ void setDutyCycle(uint8_t pin, uint8_t value) {
     // Set PB0, PB1, and PB3 as output (IN[2|3|4])
     DDRB = (1 << DD0) | (1 << DD1) | (1 << DD3);
     
-    // Set the duty cycles for PD5/PD6
+    /* // Set the duty cycles for PD5/PD6
     setDutyCycle(PD5, SPEED_HALF);
-    setDutyCycle(PD6, SPEED_HALF);
+    setDutyCycle(PD6, SPEED_HALF); */
 
 
     USART_print("MOTOR READY!\n");
      
   }
 
+
+  /*
+  @brief Steering logic depending on state the robot is at.
+  Using the check state function. 
+  
+  
+  */
 
   void motors_steering(){
     
@@ -123,13 +124,31 @@ void setDutyCycle(uint8_t pin, uint8_t value) {
 
       }
     if (adcValue0 < THRESHOLD_LEFT_LFS) {
+      setDutyCycle(PD5, 0);
 
       PORTD &= ~(1 << LEFT_FORWARD);
+      
+      } 
+    
+
+    if (adcValue2 > THRESHOLD_RIGHT_LFS) {
+      
+      setDutyCycle(PD6, SPEED_HALF);
+      
+      PORTD |= (1 << RIGHT_FORWARD);
+
+      }
+
+    if (adcValue2 < THRESHOLD_RIGHT_LFS) {
+      
+      setDutyCycle(PD6, 0);
+      PORTD &= ~(1 << RIGHT_FORWARD);
       
       } 
     }
     
   }
+  
 
 
   

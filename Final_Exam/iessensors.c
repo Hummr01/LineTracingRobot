@@ -1,6 +1,6 @@
 #include "iesmotors.h"
 #include <avr/io.h>
-#include "line_tracing.h"
+#include "iessensors.h"
 #include "iesusart.h"
 
 
@@ -39,6 +39,13 @@ uint16_t ADC_Read_Avg(uint8_t channel, uint8_t nsamples) {
   }
 
   return (uint16_t)( sum / nsamples );
+}
+
+
+
+void check_state(){
+  
+
 }
 
 

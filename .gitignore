@@ -8,3 +8,6 @@ Motoren/tmpfile
 Motoren/compile.sh
 Final_Exam/tmpfile.hex
 Final_Exam/tmpfile
+.vscode/c_cpp_properties.json
+.gitignore
+.vscode/settings.json

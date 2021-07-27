@@ -10,6 +10,8 @@
 /*Direction input*/
 #define LEFT_FORWARD PD7
 #define LEFT_BACKWARD PB0
+#define RIGHT_FORWARD PB3
+#define RIGHT_BACKWARD PB
 
 /*Settings for the ADC if the ADC is abough a certain threshold it is on 1 otherwise 0*/
 #define THRESHOLD_LEFT_LFS 512
@@ -21,14 +23,17 @@
 #define SPEED_HALF 155
 #define SPEED_MAX 255
 
-void test_print();
-
 
 void setupTimer0(void);
 
 void setDutyCycle(uint8_t pin, uint8_t value);
 
 void motors_init();
+
+/**
+ * @brief 
+ * Steering logic depending on the state given by check_state.
+ */
 
 void motors_steering();
 

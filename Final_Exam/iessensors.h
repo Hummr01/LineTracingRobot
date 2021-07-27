@@ -1,5 +1,5 @@
-#ifndef LINE_TRACING
-#define LINE_TRACING 
+#ifndef IESSENSORS
+#define IESSENSORS
 
 /*Sensor pins*/
 #define LEFT_SENSOR PC0
@@ -30,9 +30,13 @@ uint16_t ADC_Read(uint8_t channel);
 /*Returns the Average ADCValue */
 uint16_t ADC_Read_Avg(uint8_t channel, uint8_t nsamples);
 
+/**
+ * @brief 
+ * Checks the state of the robot on the line.
+ * 
+ */
 
-
-
+ void check_state();
 
 
 #endif

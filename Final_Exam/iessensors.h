@@ -1,3 +1,11 @@
+/**
+ * @file iessensors.h
+ * @brief Basic inititialisation of sensors and implementation of the detecting 
+ * logic
+ * @version 0.1
+ * @date 2021-08-02
+ */
+
 #ifndef IESSENSORS
 #define IESSENSORS
 
@@ -31,11 +39,14 @@ uint16_t ADC_Read(uint8_t channel);
 uint16_t ADC_Read_Avg(uint8_t channel, uint8_t nsamples);
 
 /**
- * @brief 
- * Checks the state of the robot on the line.
+ * @brief Returns current state of the linesensors.
  * 
+ * @return enum lf_state 
  */
- void check_state();
+
+enum lf_state {mid, right, left};
+
+enum lf_state check_state();
 
 
 #endif

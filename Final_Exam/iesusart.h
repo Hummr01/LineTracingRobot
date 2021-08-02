@@ -12,6 +12,10 @@
 #ifndef F_CPU
 #define F_CPU 16E6
 #endif
+
+//Set DEBUG to 1 for debug information
+#define DEBUG 1
+
 /// Desired baudrate
 #define BAUD 9600
 /// What to write into the UBRR register

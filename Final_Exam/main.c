@@ -7,8 +7,6 @@
 
 
 
-
-
 void robot_init() {
 
     /*Initialize USART port*/
@@ -30,6 +28,7 @@ int main(void){
     robot_init();
 
     follow_line();
+
 
     return 0;
 

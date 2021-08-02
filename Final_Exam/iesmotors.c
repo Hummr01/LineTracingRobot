@@ -11,7 +11,7 @@ void setupTimer0() {
   // Set Prescaler to 64 
   TCCR0B = 0;
   TCCR0B |= (1 << CS00) | (1 << CS01); 
-  // Set waveform generation mode to Fast PWM, frequency = F_CPU / (PRESCALER * 2^8)
+// Set waveform generation mode to Fast PWM, frequency = F_CPU / (PRESCALER * 2^8)
   TCCR0A = 0;
   TCCR0A |= (1 << WGM00) | (1 << WGM01);
   sei();                                  // enable interrupts globally
@@ -81,17 +81,77 @@ void setDutyCycle(uint8_t pin, uint8_t value) {
      
   }
 
+  void forward(){
 
-  /*
+    PORTD = 0;
+    PORTB = 0;
+
+    setDutyCycle(LEFT_SITE, SPEED_HALF);
+    setDutyCycle(RIGHT_SITE, SPEED_HALF);
+
+    PORTD |= LEFT_FORWARD;
+    PORTB |= RIGHT_FORWARD;
+  }
+
+
+void backward(){
+    PORTD = 0;
+    PORTB = 0;
+
+    setDutyCycle(LEFT_SITE, SPEED_HALF);
+    setDutyCycle(RIGHT_SITE, SPEED_HALF);
+
+    PORTD |= LEFT_BACKWARD;
+    PORTB |= RIGHT_BACKWARD;
+}
+
+void right_forward(){
+    PORTD = 0;
+    PORTB = 0;
+
+    setDutyCycle(LEFT_SITE, SPEED_HALF);
+    setDutyCycle(RIGHT_SITE, SPEED_HALF);
+
+    PORTD |= LEFT_FORWARD;
+    PORTB |= RIGHT_BACKWARD;
+}
+
+void left_forward(){
+    PORTD = 0;
+    PORTB = 0;
+
+    setDutyCycle(LEFT_SITE, SPEED_HALF);
+    setDutyCycle(RIGHT_SITE, SPEED_HALF);
+
+    PORTB |= LEFT_BACKWARD;
+    PORTB |= RIGHT_FORWARD;
+}
+
+  void stop() {
+    
+    setDutyCycle(LEFT_SITE, 0);
+    setDutyCycle(RIGHT_SITE,0);
+
+    PORTD = 0;
+    PORTB = 0;
+
+  }
+
+
+
+  /**
   @brief Steering logic depending on state the robot is at.
   Using the check state function. 
-  
-  
   */
 
   void follow_line(){
-    
+
+   
     while(1){
+
+     enum lf_state state = check_state();
+
+  
 
 
 
@@ -112,39 +172,27 @@ void setDutyCycle(uint8_t pin, uint8_t value) {
       //   USART_print(strbuff);
       //   USART_print("\n");
 
-    unsigned short adcValue0 = ADC_Read_Avg(LEFT_SENSOR, 20);
-    unsigned short adcValue1 = ADC_Read_Avg(MIDDLE_SENSOR, 20);
-    unsigned short adcValue2 = ADC_Read_Avg(RIGHT_SENSOR, 20);
+    switch (state)
+    {
+    case mid:
+      forward();
+      break;
+    case left:
+      left_forward();
+      break;
+    case right:
+      right_forward();
+      break;
 
-    if (adcValue0 > THRESHOLD_LEFT_LFS) {
-      
-      setDutyCycle(PD5, SPEED_HALF);
-      PORTD =  0;     
-      PORTD |= LEFT_FORWARD;
-
-      }
-    if (adcValue0 < THRESHOLD_LEFT_LFS) {
-      setDutyCycle(PD5, 0);
-
-      PORTD &= ~LEFT_FORWARD;
-      
-      } 
+    
+    default:
+      stop();
+      break;
+    }
     
 
-    if (adcValue2 > THRESHOLD_RIGHT_LFS) {
-      
-      setDutyCycle(PD6, SPEED_HALF);
-      
-      PORTB |= RIGHT_FORWARD;
+    
 
-      }
-
-    if (adcValue2 < THRESHOLD_RIGHT_LFS) {
-      
-      setDutyCycle(PD6, 0);
-      PORTB &= ~RIGHT_FORWARD;
-      
-      } 
     }
     
   }

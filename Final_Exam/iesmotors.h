@@ -1,11 +1,15 @@
 #ifndef IESMOTORS
 #define IESMOTORS
 #include <avr/io.h>
-#include <avr/interrupt.h>
+#include<avr/interrupt.h>
 
 /*Motor pins*/
 #define ENA DD5
 #define ENB DD6
+
+/*Motor pins for the duty cycle*/
+#define LEFT_SITE PD5
+#define RIGHT_SITE PD6
 
 /*Direction input*/
 #define LEFT_FORWARD (1 << PD7)
@@ -36,6 +40,20 @@ void motors_init();
  */
 
 void follow_line();
+
+/**
+ * @brief 
+ * Functions for implementation of foward, right, left, backward
+ * movement given argument should not be bigger than 255
+ */
+
+void forward();
+
+void backward();
+
+void right_forward();
+
+void left_forward();
 
 #endif
 

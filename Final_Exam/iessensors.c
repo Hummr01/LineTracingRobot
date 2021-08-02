@@ -2,10 +2,7 @@
 #include <avr/io.h>
 #include "iessensors.h"
 #include "iesusart.h"
-
-
-
-
+#include <stdio.h>
 
 
 void sensor_init(){
@@ -43,9 +40,59 @@ uint16_t ADC_Read_Avg(uint8_t channel, uint8_t nsamples) {
 
 
 
-void check_state(){
+enum lf_state check_state() {
 
+
+      // int adcval0 = ADC_Read_Avg(0, 20);
+      //   int adcval1 = ADC_Read_Avg(1, 20);
+      //   int adcval2 = ADC_Read_Avg(2, 20);
+        
+      //   char strbuff[17];
+        
+      //   USART_print("ADCVAL: ");
+      //   sprintf(strbuff, "%u", adcval0);
+      //   USART_print(strbuff);
+      //   USART_print("   ");
+      //   sprintf(strbuff, "%u", adcval1);
+      //   USART_print(strbuff);
+      //   USART_print("   ");
+      //   sprintf(strbuff, "%u", adcval2);
+      //   USART_print(strbuff);
+      //   USART_print("\n");
+  
+
+  unsigned short adcValueLeft = ADC_Read_Avg(LEFT_SENSOR, 20);
+  unsigned short adcValueMid = ADC_Read_Avg(MIDDLE_SENSOR, 20);
+  unsigned short adcValueRight = ADC_Read_Avg(RIGHT_SENSOR, 20);
+
+  char strbuff[17];
+
+     sprintf(strbuff, "%u", adcValueLeft);
+         USART_print(strbuff);
+         USART_print("\n");
+
+  if((adcValueMid > THRESHOLD_MIDDLE_LFS) && (adcValueLeft < THRESHOLD_LEFT_LFS)
+    && adcValueRight < THRESHOLD_RIGHT_LFS){
+    return mid;
+  }
+  if (((adcValueMid > THRESHOLD_MIDDLE_LFS) && (adcValueRight > THRESHOLD_RIGHT_LFS))
+  || (adcValueRight > THRESHOLD_RIGHT_LFS)) {
+    return right;
+  }
+  if (((adcValueMid > THRESHOLD_MIDDLE_LFS) && (adcValueRight > THRESHOLD_LEFT_LFS))
+  || (adcValueLeft > THRESHOLD_LEFT_LFS)) {
+    return right;
+  }
+  
+  
+  
 }
+
+
+
+
+
+
 
 
 

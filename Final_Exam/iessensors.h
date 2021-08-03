@@ -44,7 +44,7 @@ uint16_t ADC_Read_Avg(uint8_t channel, uint8_t nsamples);
  * @return enum lf_state 
  */
 
-enum lf_state {mid, right, left};
+enum lf_state {all_three, mid, right, left};
 
 enum lf_state check_state();
 

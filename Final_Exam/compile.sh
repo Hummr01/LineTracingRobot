@@ -8,5 +8,5 @@ avr-objcopy -O ihex tmpfile tmpfile.hex
 #echo avrdude -p atmega328p -c arduino -P /dev/ttyACM0 -b 115200 -U flash:w:tmpfile.hex:i
 #avrdude -p atmega328p -c arduino -P /dev/ttyACM0 -b 115200 -U flash:w:tmpfile.hex:i
 
-#echo rm ./tmpfile ./tmpfile.hex
-#rm ./tmpfile ./tmpfile.hex
+echo rm ./tmpfile 
+rm ./tmpfile 

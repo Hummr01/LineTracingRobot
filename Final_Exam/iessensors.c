@@ -40,52 +40,42 @@ uint16_t ADC_Read_Avg(uint8_t channel, uint8_t nsamples) {
 
 
 
-enum lf_state check_state() {
-
-
-      // int adcval0 = ADC_Read_Avg(0, 20);
-      //   int adcval1 = ADC_Read_Avg(1, 20);
-      //   int adcval2 = ADC_Read_Avg(2, 20);
-        
-      //   char strbuff[17];
-        
-      //   USART_print("ADCVAL: ");
-      //   sprintf(strbuff, "%u", adcval0);
-      //   USART_print(strbuff);
-      //   USART_print("   ");
-      //   sprintf(strbuff, "%u", adcval1);
-      //   USART_print(strbuff);
-      //   USART_print("   ");
-      //   sprintf(strbuff, "%u", adcval2);
-      //   USART_print(strbuff);
-      //   USART_print("\n");
-  
+enum lf_state check_state() {  
 
   unsigned short adcValueLeft = ADC_Read_Avg(LEFT_SENSOR, 20);
   unsigned short adcValueMid = ADC_Read_Avg(MIDDLE_SENSOR, 20);
   unsigned short adcValueRight = ADC_Read_Avg(RIGHT_SENSOR, 20);
 
-  char strbuff[17];
+//If DEBUG set to true it prints out the adcValue for the sensors every 200
+//state request
 
-     sprintf(strbuff, "%u", adcValueLeft);
-         USART_print(strbuff);
-         USART_print("\n");
+if(DEBUG){
+  static char debug_count = 0;
+  debug_count++;
+  if(debug_count % 200 == 0) {
+    char strbuff[70];
+    sprintf(strbuff, "SIGNAL LEFT %u | SIGNAL MID %u | SIGNAL RIGHT: %u\n", 
+            adcValueLeft, adcValueMid, adcValueRight);
+    USART_print(strbuff);
+  }
+}
+  
 
-  if((adcValueMid > THRESHOLD_MIDDLE_LFS) && (adcValueLeft < THRESHOLD_LEFT_LFS)
-    && adcValueRight < THRESHOLD_RIGHT_LFS){
+  if((adcValueMid > THRESHOLD_MIDDLE_LFS) 
+    && (adcValueLeft < THRESHOLD_LEFT_LFS)
+    && (adcValueRight < THRESHOLD_RIGHT_LFS)){
     return mid;
   }
-  if (((adcValueMid > THRESHOLD_MIDDLE_LFS) && (adcValueRight > THRESHOLD_RIGHT_LFS))
-  || (adcValueRight > THRESHOLD_RIGHT_LFS)) {
+  if (((adcValueMid > THRESHOLD_MIDDLE_LFS) 
+    && (adcValueRight > THRESHOLD_RIGHT_LFS))
+    || (adcValueRight > THRESHOLD_RIGHT_LFS)) {
     return right;
   }
-  if (((adcValueMid > THRESHOLD_MIDDLE_LFS) && (adcValueRight > THRESHOLD_LEFT_LFS))
-  || (adcValueLeft > THRESHOLD_LEFT_LFS)) {
-    return right;
-  }
-  
-  
-  
+  if (((adcValueMid > THRESHOLD_MIDDLE_LFS) 
+    && (adcValueLeft > THRESHOLD_LEFT_LFS))
+    || (adcValueLeft > THRESHOLD_LEFT_LFS)) {
+    return left;
+  }  
 }
 
 

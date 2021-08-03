@@ -18,7 +18,7 @@ void robot_init() {
     /*Initialize motors*/
     motors_init();
 
-    USART_print("SETUP FINISHED");
+    USART_print("SETUP FINISHED!\n");
 }
 
 

@@ -132,8 +132,10 @@ void left_forward(){
     setDutyCycle(LEFT_SITE, 0);
     setDutyCycle(RIGHT_SITE,0);
 
-    PORTD = 0;
-    PORTB = 0;
+    PORTB &= ~LEFT_BACKWARD;
+    PORTD &= ~LEFT_FORWARD;
+    PORTB &= ~RIGHT_FORWARD;
+    PORTB &= ~RIGHT_BACKWARD;
 
   }
 
@@ -146,31 +148,9 @@ void left_forward(){
 
   void follow_line(){
 
-   
     while(1){
 
      enum lf_state state = check_state();
-
-  
-
-
-
-      // int adcval0 = ADC_Read_Avg(0, 20);
-      //   int adcval1 = ADC_Read_Avg(1, 20);
-      //   int adcval2 = ADC_Read_Avg(2, 20);
-        
-      //   char strbuff[17];
-        
-      //   USART_print("ADCVAL: ");
-      //   sprintf(strbuff, "%u", adcval0);
-      //   USART_print(strbuff);
-      //   USART_print("   ");
-      //   sprintf(strbuff, "%u", adcval1);
-      //   USART_print(strbuff);
-      //   USART_print("   ");
-      //   sprintf(strbuff, "%u", adcval2);
-      //   USART_print(strbuff);
-      //   USART_print("\n");
 
     switch (state)
     {

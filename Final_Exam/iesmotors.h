@@ -55,6 +55,8 @@ void right_forward();
 
 void left_forward();
 
+void stop();
+
 #endif
 
 

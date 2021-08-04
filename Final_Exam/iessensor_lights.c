@@ -4,6 +4,9 @@
 #include <stdio.h>
 
 
+ 
+
+
 /**
  * @brief Shift method for the 4-bit shift register to place bit to right
  * register output
@@ -17,6 +20,16 @@ void shift(uint8_t count){
     }
 }
 
+/**
+ * @brief Reset register.
+ * 
+ */
+void reset() {
+    PORTB = ~(1 << PB2);
+    shift(3);
+
+}
+
 
 
 /**
@@ -27,7 +40,6 @@ void shift(uint8_t count){
  */
 void sensor_lights(enum lf_state state){
 
-    static enum lf_state state = state;
 
     switch (state)
     {
@@ -36,15 +48,64 @@ void sensor_lights(enum lf_state state){
         shift(3);
         PORTB = ~(1 << PB2);
         break;
-        
+    
+    case left:
+        reset();
+        PORTB = (1 << PB2);
+        shift(1);
+        PORTB = ~(1 << PB2);
+        shift(2);
+        break;
+
+    case left_mid:
+        reset();
+        PORTB = (1 << PB2);
+        shift(2);
+        PORTB = ~(1 << PB2);
+        shift(1);
+        break;
+          
+
     case mid:
+        reset();
         PORTB = (1 << PB2);
         shift(1);
         PORTB = ~(1 << PB2);
         shift(1);
+        break;
+    
+    case mid_right:
+        reset();
+        PORTB = (1 << PB2);
+        shift(2);
+        PORTB = ~(1 << PB2);
+        break;     
         
+
+    case right:
+        reset();
+        PORTB = (1 << PB2);
+        shift(1);
+        PORTB = ~(1 << PB2);
+        break;
+
+    case left_right:
+        reset();
+        PORTB = (1 << PB2);
+        shift(1);
+        PORTB = ~(1 << PB2);
+        shift(1);
+        PORTB = (1 << PB2);
+        shift(1);
+        PORTB = ~(1<< PB2);
+        break;
+
+    case no_line:
+        reset();
+        break;           
     
     default:
+        reset();
         break;
     }  
 

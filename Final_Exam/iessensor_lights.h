@@ -1,18 +1,13 @@
 /**
- * @file iessensor_light.h
+ * @file iessensor_lights.h
  * @brief Handling of register shifting to indicate state of robot
  * @version 0.1
  * @date 2021-08-04
  * 
  * 
  */
-#ifndef IESSENSOR_LIGHT
-#define IESSENSOR_LIGHT
-
-#include "iessensors.h"
-#include "iesusart.h"
-#include <stdio.h>
-
+#ifndef IESSENSOR_LIGHTS
+#define IESSENSOR_LIGHTS
 
 
 
@@ -31,13 +26,13 @@ void shift(uint8_t count);
 void reset();
 
 
-
-
-
-
 /**
  * @brief Handles sensor light to show which sensor is detecting line and
  * which is not.
  * 
  */
 void sensor_lights(enum lf_state state);
+
+
+
+#endif

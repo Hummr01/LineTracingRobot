@@ -3,6 +3,7 @@
 #include "iessensors.h"
 #include "iesusart.h"
 #include <stdio.h>
+#include "iessensor_lights.h"
 
 
 void sensor_init(){
@@ -39,7 +40,6 @@ uint16_t ADC_Read_Avg(uint8_t channel, uint8_t nsamples) {
 }
 
 
-
 enum lf_state check_state() {  
 
   unsigned short adcValueLeft = ADC_Read_Avg(LEFT_SENSOR, 20);
@@ -59,23 +59,72 @@ if(DEBUG){
     USART_print(strbuff);
   }
 }
+
+  if((adcValueLeft > THRESHOLD_LEFT_LFS)
+    && (adcValueMid > THRESHOLD_MIDDLE_LFS) 
+    && (adcValueRight > THRESHOLD_RIGHT_LFS)){
+    
+    sensor_lights(all_three);
+    return all_three;
+  }
+
+  if ((adcValueLeft < THRESHOLD_RIGHT_LFS) 
+  && (adcValueMid < THRESHOLD_MIDDLE_LFS)
+  && (adcValueRight < THRESHOLD_RIGHT_LFS)) {
+
+    sensor_lights(no_line);
+    return no_line;
+
+  }
+
+  if ((adcValueMid > THRESHOLD_MIDDLE_LFS) 
+  && (adcValueLeft > THRESHOLD_LEFT_LFS)) {
+
+    sensor_lights(left_mid);
+    return left_mid;
+    }
+
   
 
+  
   if((adcValueMid > THRESHOLD_MIDDLE_LFS) 
-    && (adcValueLeft < THRESHOLD_LEFT_LFS)
-    && (adcValueRight < THRESHOLD_RIGHT_LFS)){
+  && (adcValueLeft < THRESHOLD_LEFT_LFS)
+  && (adcValueRight < THRESHOLD_RIGHT_LFS)){
+  
+    sensor_lights(mid);
     return mid;
   }
-  if (((adcValueMid > THRESHOLD_MIDDLE_LFS) 
-    && (adcValueRight > THRESHOLD_RIGHT_LFS))
-    || (adcValueRight > THRESHOLD_RIGHT_LFS)) {
+
+  if ((adcValueMid > THRESHOLD_MIDDLE_LFS) 
+  && (adcValueRight > THRESHOLD_RIGHT_LFS)){
+    sensor_lights(mid_right);
+    return mid_right;
+  }
+
+  if ((adcValueLeft > THRESHOLD_LEFT_LFS) 
+  && (adcValueRight > THRESHOLD_RIGHT_LFS)) {
+
+    sensor_lights(left_right);
+    return (left_right);
+  }
+
+
+  else if (adcValueRight > THRESHOLD_RIGHT_LFS) {
+    
+    sensor_lights(right);
     return right;
   }
-  if (((adcValueMid > THRESHOLD_MIDDLE_LFS) 
-    && (adcValueLeft > THRESHOLD_LEFT_LFS))
-    || (adcValueLeft > THRESHOLD_LEFT_LFS)) {
+
+  else if (adcValueLeft > THRESHOLD_LEFT_LFS) {
+    
+    sensor_lights(left);
     return left;
-  }  
+  } 
+
+  
+  
+
+  
 }
 
 

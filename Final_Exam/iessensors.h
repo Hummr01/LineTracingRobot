@@ -38,14 +38,15 @@ uint16_t ADC_Read(uint8_t channel);
 /*Returns the Average ADCValue */
 uint16_t ADC_Read_Avg(uint8_t channel, uint8_t nsamples);
 
+
+/*States of all possible sensor combinations */
+enum lf_state {no_line, all_three, left, left_mid, mid, mid_right, right, left_right};
+
 /**
- * @brief Returns current state of the linesensors.
+ * @brief Returns current state of the sensor
  * 
- * @return enum lf_state 
+ * @return enum lf_state state of sensor
  */
-
-enum lf_state {all_three, mid, right, left};
-
 enum lf_state check_state();
 
 

@@ -30,6 +30,12 @@
 
 void setupTimer0(void);
 
+/**
+ * @brief setup timer 1 for start function (16 bit)
+ * 
+ */
+void setupTimer1(void);
+
 void setDutyCycle(uint8_t pin, uint8_t value);
 
 void motors_init();
@@ -46,7 +52,6 @@ void follow_line();
  * Functions for implementation of foward, right, left, backward
  * movement given argument should not be bigger than 255
  */
-
 void forward();
 
 void backward();
@@ -56,6 +61,12 @@ void right_forward();
 void left_forward();
 
 void stop();
+
+/**
+ * @brief Function initializiation of start sequence.
+ * 
+ */
+void start();
 
 #endif
 

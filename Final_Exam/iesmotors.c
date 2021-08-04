@@ -17,6 +17,18 @@ void setupTimer0() {
   sei();                                  // enable interrupts globally
 }
 
+void setupTimer1(){
+  cli();
+  
+  TCCR1A = 0;
+
+  // Set Prescaler to 1024
+  TCCR1B = 0;
+  TCCR1B = (1 << CS12) | (1 << CS10 );
+
+  sei(); 
+}
+
 /* Sets duty-cycle at pin PD5 or PD6 (OC0A or OC0B)
  * to a value (0 - 255 = 0% - 100%).
  * Timer0 needs to be setup before usage.
@@ -140,6 +152,13 @@ void left_forward(){
   }
 
 
+  void start(){
+    
+  }
+
+
+
+
 
   /**
   @brief Steering logic depending on state the robot is at.
@@ -149,25 +168,49 @@ void left_forward(){
   void follow_line(){
 
     while(1){
+           
+      enum lf_state state = check_state();
+      static enum lf_state previous_state = 0; 
 
-     enum lf_state state = check_state();
 
-    switch (state)
-    {
-    case mid:
-      forward();
-      break;
-    case left:
-      left_forward();
-      break;
-    case right:
-      right_forward();
-      break;
+    switch (state){
 
-    
-    default:
-      stop();
-      break;
+      case all_three:
+        start();
+        break;
+
+      case mid:
+        forward();
+        break;
+
+      case left:
+      case left_mid:
+        previous_state = left;
+        left_forward();
+        break;
+
+      case right:
+      case mid_right:
+        previous_state = right;
+        right_forward();
+        break;
+
+      case left_right:
+
+        //just works for corners 
+
+        if(previous_state == right) {  
+          left_forward();
+          break;
+
+        } else {
+          right_forward();
+          break;
+        }
+
+      
+
+
     }
     
 

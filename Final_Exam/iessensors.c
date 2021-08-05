@@ -119,15 +119,13 @@ if(DEBUG){
     
     sensor_lights(left);
     return left;
-  } 
-
-  
-  
+  } else {
+    
+    return no_line;
+  }
 
   
 }
-
-
 
 
 

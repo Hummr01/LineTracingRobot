@@ -1,7 +1,6 @@
 #include "iesmotors.h"
 #include "iesusart.h"
 #include "iessensors.h"
-#include <util/delay.h>
 #include <stdio.h>
 
 
@@ -207,8 +206,10 @@ void left_forward(){
           right_forward();
           break;
         }
+      case no_line:
+        stop();
+        break;
 
-      
 
 
     }

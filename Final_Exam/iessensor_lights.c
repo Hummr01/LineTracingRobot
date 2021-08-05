@@ -1,18 +1,11 @@
 #include <avr/io.h>
 #include "iessensors.h"
 #include "iesusart.h"
+#include "iessensor_lights.h"
 #include <stdio.h>
 
 
- 
 
-
-/**
- * @brief Shift method for the 4-bit shift register to place bit to right
- * register output
- * 
- * @param count number of times bit needs to be shifted.
- */
 void shift(uint8_t count){
     for (uint8_t i = 0; i < count; i++){
         PORTD = (1 << PD4);

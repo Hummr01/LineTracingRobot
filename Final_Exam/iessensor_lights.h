@@ -11,6 +11,7 @@
 
 
 
+
 /**
  * @brief Shift method for the 4-bit shift register to place bit to right
  * register output

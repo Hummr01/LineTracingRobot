@@ -2,6 +2,8 @@
 #include "iesusart.h"
 #include "iessensors.h"
 #include <stdio.h>
+#include "iessensor_lights.h"
+
 
 
 /* sets up timer 0 (8 bit) */
@@ -10,22 +12,59 @@ void setupTimer0() {
   // Set Prescaler to 64 
   TCCR0B = 0;
   TCCR0B |= (1 << CS00) | (1 << CS01); 
-// Set waveform generation mode to Fast PWM, frequency = F_CPU / (PRESCALER * 2^8)
+  // Set waveform generation mode to Fast PWM, frequency = F_CPU / (PRESCALER * 2^8)
   TCCR0A = 0;
   TCCR0A |= (1 << WGM00) | (1 << WGM01);
   sei();                                  // enable interrupts globally
 }
 
+
+
+
 void setupTimer1(){
   cli();
-  
+
+  // Reset Timer1 Control Reg A 
   TCCR1A = 0;
 
-  // Set Prescaler to 1024
+  // Reset Timer1 Control Reg B
   TCCR1B = 0;
-  TCCR1B = (1 << CS12) | (1 << CS10 );
+
+  // Set CTC mode so timer is reset every time it reaches the compare match value
+  TCCR1B |= (1 << WGM12);
+
+  // Set Prescaler to 1024
+  TCCR1B |= (1 << CS12) | (1 << CS10);
+
+  TCNT1 = 0;                              // reset Timer1
+  OCR1A = T1_COMP;                        //set compare value for 15s timer
+  OCR1B = T1_BLINK;
+
+  // Enable Timer1 compare Interrupt
+  TIMSK1 = (1 << OCIE1A);
+  TIMSK1 |= (1 << OCIE1B);
+  
 
   sei(); 
+}
+
+ISR(TIMER1_COMPA_vect){
+t1_count++;
+ char strbuff[20];
+      sprintf(strbuff, "COUNTDOWN:%d\n", t1_count);
+      USART_print(strbuff);
+      blink();
+      
+}
+
+ISR(TIMER1_COMPB_vect){
+  
+}
+
+
+
+void stopTimer1(){
+  TCCR1B = 0;
 }
 
 /* Sets duty-cycle at pin PD5 or PD6 (OC0A or OC0B)
@@ -79,14 +118,12 @@ void setDutyCycle(uint8_t pin, uint8_t value) {
     
     // Make PWM work on PD[5|6]
     setupTimer0();
+
+    //Setup start countdown timer
+    setupTimer1();
     
     // Set PB0, PB1, and PB3 as output (IN[2|3|4])
     DDRB = (1 << DD0) | (1 << DD1) | (1 << DD3);
-    
-    /* // Set the duty cycles for PD5/PD6
-    setDutyCycle(PD5, SPEED_HALF);
-    setDutyCycle(PD6, SPEED_HALF); */
-
 
     USART_print("MOTOR READY!\n");
      
@@ -151,14 +188,6 @@ void left_forward(){
   }
 
 
-  void start(){
-    
-  }
-
-
-
-
-
   /**
   @brief Steering logic depending on state the robot is at.
   Using the check state function. 
@@ -166,16 +195,40 @@ void left_forward(){
 
   void follow_line(){
 
-    while(1){
-           
-      enum lf_state state = check_state();
-      static enum lf_state previous_state = 0; 
 
+    while(1){
+          
+    enum lf_state state = check_state();
+    enum lf_state previous_state = 0;
+
+    if(t1_count < 15) {
+
+      stop();
+     
+      
+      switch (state){
+
+        
+         
+         case all_three:
+         break;
+
+         //reset timer1 
+         default:
+         TCNT1 = 0;                        //reset Timer1
+         t1_count =0;
+         break;
+
+      }
+    }
+    else {
+      
+      stopTimer1(); 
 
     switch (state){
 
       case all_three:
-        start();
+        forward();
         break;
 
       case mid:
@@ -207,21 +260,12 @@ void left_forward(){
           break;
         }
       case no_line:
-        stop();
+        left_forward();
         break;
-
-
-
+      }  
     }
-    
-
-    
-
     }
-    
   }
-  
-
 
   
 

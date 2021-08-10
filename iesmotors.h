@@ -27,14 +27,36 @@
 #define SPEED_HALF 155
 #define SPEED_MAX 255
 
+/*Compare value for the 15s timer counter for a prescaler of 1024*/
+#define T1_COMP 15625
+
+/*Compare value for the 15s timer led blinking*/
+#define T1_BLINK 3125
+
 
 void setupTimer0(void);
 
+
+// Counter for the 15s start counter
+static unsigned short t1_count = 0;
+
 /**
- * @brief setup timer 1 for start function (16 bit)
+ * @brief setup Timer1 for start function (16 bit)
  * 
  */
-void setupTimer1(void);
+void setupTimer1();
+
+/**
+ * @brief increment the start counter by one 
+ * 
+ */
+ISR(TIMER1_COMPA_vect);
+
+/**
+ * @brief stopt Timer1 for the period of driving
+ * 
+ */
+void stopTimer1();
 
 void setDutyCycle(uint8_t pin, uint8_t value);
 

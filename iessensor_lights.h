@@ -35,5 +35,11 @@ void reset();
 void sensor_lights(enum lf_state state);
 
 
+/**
+ * @brief let all leds blink
+ * 
+ */
+void blink();
+
 
 #endif

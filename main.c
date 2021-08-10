@@ -25,6 +25,7 @@ void robot_init() {
 
 int main(void){
 
+
     robot_init();
 
     follow_line();

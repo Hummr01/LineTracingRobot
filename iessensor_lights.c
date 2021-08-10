@@ -23,13 +23,12 @@ void reset() {
 
 }
 
-void blink(){
-        PORTB = (1 << PB2);
-        shift(3);
-        PORTB = ~(1 << PB2);
-        reset();
-
+void blink() {
+    PORTB ^= (1 << PB2);
+    shift(3); 
 }
+
+
 
 /**
  * @brief Handles sensor light to show which sensor is detecting line and
@@ -39,17 +38,17 @@ void blink(){
  */
 void sensor_lights(enum lf_state state){
 
-    static enum lf_state prev_state =0;
+    static enum lf_state prev_state = 0;
 
-    
+    if (state != prev_state) {
         
     
 
 
-    switch (state)
-    {
+    switch (state){
     case all_three:
         prev_state = all_three;
+        reset();
         PORTB = (1 << PB2);
         shift(3);
         PORTB = ~(1 << PB2);
@@ -117,6 +116,7 @@ void sensor_lights(enum lf_state state){
         reset();
         break;           
     }  
+    }
     
     
     

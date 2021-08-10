@@ -37,12 +37,12 @@ void setupTimer1(){
   TCCR1B |= (1 << CS12) | (1 << CS10);
 
   TCNT1 = 0;                              // reset Timer1
-  OCR1A = T1_COMP;                        //set compare value for 15s timer
-  OCR1B = T1_BLINK;
+  OCR1A = T1_COMP;                        // set compare value for 15s timer
+  OCR1B = T1_BLINK;                       // set compare value for 5Hz blinking
+      
 
   // Enable Timer1 compare Interrupt
-  TIMSK1 = (1 << OCIE1A);
-  TIMSK1 |= (1 << OCIE1B);
+  TIMSK1 = (1 << OCIE1A) | (1 << OCIE1B);
   
 
   sei(); 
@@ -50,15 +50,13 @@ void setupTimer1(){
 
 ISR(TIMER1_COMPA_vect){
 t1_count++;
- char strbuff[20];
-      sprintf(strbuff, "COUNTDOWN:%d\n", t1_count);
-      USART_print(strbuff);
-      blink();
-      
+  char strbuff[20];
+       sprintf(strbuff, "COUNTDOWN:%d\n", t1_count);
+       USART_print(strbuff); 
 }
 
-ISR(TIMER1_COMPB_vect){
-  
+ISR(TIMER1_COMPB_vect) {
+  blink();
 }
 
 
@@ -196,19 +194,15 @@ void left_forward(){
   void follow_line(){
 
 
+
     while(1){
           
     enum lf_state state = check_state();
     enum lf_state previous_state = 0;
 
     if(t1_count < 15) {
-
       stop();
-     
-      
       switch (state){
-
-        
          
          case all_three:
          break;

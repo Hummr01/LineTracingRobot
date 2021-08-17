@@ -134,43 +134,73 @@ void setDutyCycle(uint8_t pin, uint8_t value) {
 
     setDutyCycle(LEFT_SITE, SPEED_HALF);
     setDutyCycle(RIGHT_SITE, SPEED_HALF);
-
+	PORTB &= ~RIGHT_BACKWARD;
+	PORTB &= ~LEFT_BACKWARD;
     PORTD |= LEFT_FORWARD;
     PORTB |= RIGHT_FORWARD;
   }
 
 
 void backward(){
-    PORTD = 0;
-    PORTB = 0;
-
+    
     setDutyCycle(LEFT_SITE, SPEED_HALF);
     setDutyCycle(RIGHT_SITE, SPEED_HALF);
-
-    PORTD |= LEFT_BACKWARD;
+	
+	PORTB &= ~RIGHT_FORWARD;
+	PORTD &= ~LEFT_FORWARD;
+    PORTB |= LEFT_BACKWARD;
     PORTB |= RIGHT_BACKWARD;
 }
 
 void right_forward(){
-    PORTD = 0;
-    PORTB = 0;
 
-    setDutyCycle(LEFT_SITE, SPEED_HALF);
-    setDutyCycle(RIGHT_SITE, SPEED_HALF);
-
+    setDutyCycle(LEFT_SITE, SPEED_MAX);
+    setDutyCycle(RIGHT_SITE, SPEED_SLOW);
+	
+	PORTB &= ~LEFT_BACKWARD;
+	PORTB &= ~RIGHT_BACKWARD;
     PORTD |= LEFT_FORWARD;
-    PORTB |= RIGHT_BACKWARD;
+    PORTB |= RIGHT_FORWARD;
 }
 
+void right_turn() {
+
+	setDutyCycle(LEFT_SITE, SPEED_HALF);
+    setDutyCycle(RIGHT_SITE, SPEED_HALF);
+	
+	PORTB &= ~LEFT_BACKWARD;
+	PORTB &= ~RIGHT_FORWARD;
+    PORTD |= LEFT_FORWARD;
+    PORTB |= RIGHT_BACKWARD;
+
+
+
+}
+
+
 void left_forward(){
-    PORTD = 0;
-    PORTB = 0;
 
     setDutyCycle(LEFT_SITE, SPEED_HALF);
-    setDutyCycle(RIGHT_SITE, SPEED_HALF);
+    setDutyCycle(RIGHT_SITE, SPEED_MAX);
+	
+	PORTB &= ~RIGHT_BACKWARD;
+	PORTB &= ~LEFT_BACKWARD;
+    PORTD |= LEFT_FORWARD;
+    PORTB |= RIGHT_FORWARD;
+}
 
+void left_turn(){
+
+	setDutyCycle(LEFT_SITE, SPEED_HALF);
+    setDutyCycle(RIGHT_SITE, SPEED_HALF);
+	
+	PORTB &= ~RIGHT_BACKWARD;
+	PORTD &= ~LEFT_FORWARD;
     PORTB |= LEFT_BACKWARD;
     PORTB |= RIGHT_FORWARD;
+
+
+
 }
 
   void stop() {
@@ -230,15 +260,19 @@ void left_forward(){
         break;
 
       case left:
+		left_forward();
+		break;
       case left_mid:
-        previous_state = left;
-        left_forward();
+        previous_state = left_mid;
+        left_turn();
         break;
 
       case right:
+		right_forward();
+		break;
       case mid_right:
-        previous_state = right;
-        right_forward();
+        previous_state = mid_right;
+        right_turn();
         break;
 
       case left_right:
@@ -246,16 +280,23 @@ void left_forward(){
         //just works for corners 
 
         if(previous_state == right) {  
-          left_forward();
+          left_turn();
           break;
 
         } else {
-          right_forward();
+          right_turn();
           break;
         }
       case no_line:
-        left_forward();
-        break;
+		if(previous_state== left_mid) {
+		left_turn();
+		break;
+		}if (previous_state == mid_right){
+			right_turn();
+			break;
+		} else {
+			forward();
+		}
       }  
     }
     }

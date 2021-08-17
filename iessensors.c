@@ -15,7 +15,7 @@ void sensor_init(){
     ADCSRA |= (1<<ADSC); // Single conversion
     while (ADCSRA & (1<<ADSC) );
     ADCW; // Read once to "warm up" ADC.
-    USART_print("Linesensor ready!\n");
+    USART_print("LINESENSOR READY!\n");
 
 
 }
@@ -105,23 +105,26 @@ if(DEBUG){
   && (adcValueRight > THRESHOLD_RIGHT_LFS)) {
 
     sensor_lights(left_right);
-    return (left_right);
+    return left_right;
   }
 
 
-  else if (adcValueRight > THRESHOLD_RIGHT_LFS) {
+  else if ((adcValueRight > THRESHOLD_RIGHT_LFS) 
+  && (adcValueMid < THRESHOLD_MIDDLE_LFS)
+  && (adcValueLeft < THRESHOLD_LEFT_LFS)) {
     
     sensor_lights(right);
     return right;
   }
 
-  else if (adcValueLeft > THRESHOLD_LEFT_LFS) {
+  else if (adcValueLeft > THRESHOLD_LEFT_LFS){
     
     sensor_lights(left);
     return left;
-  } else {
+    } else {
     
     return no_line;
+    
   }
 
   

@@ -18,11 +18,13 @@
 #define RIGHT_BACKWARD (1 << PB1)
 
 /*Settings for the ADC if the ADC is abough a certain threshold it is on 1 otherwise 0*/
-#define THRESHOLD_LEFT_LFS 512
-#define THRESHOLD_RIGHT_LFS 512
-#define THRESHOLD_MIDDLE_LFS 512
+#define THRESHOLD_LEFT_LFS 100
+#define THRESHOLD_MIDDLE_LFS 400
+#define THRESHOLD_RIGHT_LFS 400
+
 
 /*Dutycycle Speed*/
+#define SPEED_CORRECT 130
 #define SPEED_SLOW 100
 #define SPEED_HALF 155
 #define SPEED_MAX 255
@@ -80,7 +82,11 @@ void backward();
 
 void right_forward();
 
+void right_turn();
+
 void left_forward();
+
+void left_turn();
 
 void stop();
 

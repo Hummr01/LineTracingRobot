@@ -10,9 +10,9 @@
 #define IESSENSORS
 
 /*Sensor pins*/
-#define LEFT_SENSOR PC0
+#define LEFT_SENSOR PC2
 #define MIDDLE_SENSOR PC1
-#define RIGHT_SENSOR PC2
+#define RIGHT_SENSOR PC0
 
 
 /* Configuration for ADC*/

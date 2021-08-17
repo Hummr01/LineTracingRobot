@@ -4,6 +4,7 @@
 #include "iesusart.h"
 #include "iesmotors.h"
 #include "iessensors.h"
+#include "iessensor_lights.h"
 
 
 
@@ -17,6 +18,9 @@ void robot_init() {
 
     /*Initialize motors*/
     motors_init();
+    
+    /*INIT  LIGHTS*/
+    light_init();
 
     USART_print("SETUP FINISHED!\n");
 }
@@ -27,7 +31,7 @@ int main(void){
 
 
     robot_init();
-
+    
     follow_line();
 
 

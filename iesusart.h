@@ -14,7 +14,7 @@
 #endif
 
 //Set DEBUG to 1 for debug information
-#define DEBUG 0
+#define DEBUG 1
 
 /// Desired baudrate
 #define BAUD 9600

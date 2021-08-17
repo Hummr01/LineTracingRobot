@@ -27,6 +27,9 @@ void shift(uint8_t count);
 void reset();
 
 
+void light_init();
+
+
 /**
  * @brief Handles sensor light to show which sensor is detecting line and
  * which is not.

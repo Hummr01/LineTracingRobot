@@ -6,10 +6,19 @@
 
 
 
+void light_init() {
+	DDRB |= (1 << DD2);
+	DDRD |= (1 << DD4);
+	
+	USART_print("LIGHTS READY!\n");
+
+}
+
+
 void shift(uint8_t count){
     for (uint8_t i = 0; i < count; i++){
-        PORTD = (1 << PD4);
-        PORTD = ~(1 << PD4);
+        PORTD &= ~(1 << PD4);
+        PORTD |= (1 << PD4);
     }
 }
 
@@ -18,7 +27,7 @@ void shift(uint8_t count){
  * 
  */
 void reset() {
-    PORTB = ~(1 << PB2);
+    PORTB &= ~(1 << PB2);
     shift(3);
 
 }
@@ -38,7 +47,7 @@ void blink() {
  */
 void sensor_lights(enum lf_state state){
 
-    static enum lf_state prev_state = 0;
+    static enum lf_state prev_state = 1;
 
     if (state != prev_state) {
         
@@ -48,27 +57,24 @@ void sensor_lights(enum lf_state state){
     switch (state){
     case all_three:
         prev_state = all_three;
-        reset();
-        PORTB = (1 << PB2);
+        PORTB |= (1 << PB2);
         shift(3);
-        PORTB = ~(1 << PB2);
         break;
     
-    case left:
+    case right:
         prev_state =left;
-        reset();
-        PORTB = (1 << PB2);
+		reset();
+        PORTB |= (1 << PB2);
         shift(1);
-        PORTB = ~(1 << PB2);
-        shift(2);
+        PORTB &= ~(1 << PB2);
         break;
 
     case left_mid:
         prev_state = left_mid;
         reset();
-        PORTB = (1 << PB2);
+        PORTB |= (1 << PB2);
         shift(2);
-        PORTB = ~(1 << PB2);
+        PORTB &= ~(1 << PB2);
         shift(1);
         break;
           
@@ -76,9 +82,9 @@ void sensor_lights(enum lf_state state){
     case mid:
         prev_state = mid;
         reset();
-        PORTB = (1 << PB2);
+        PORTB |= (1 << PB2);
         shift(1);
-        PORTB = ~(1 << PB2);
+        PORTB &= ~(1 << PB2);
         shift(1);
         break;
     
@@ -91,12 +97,12 @@ void sensor_lights(enum lf_state state){
         break;     
         
 
-    case right:
+    case left:
     prev_state = right;
-        reset();
-        PORTB = (1 << PB2);
+        PORTB |= (1 << PB2);
         shift(1);
-        PORTB = ~(1 << PB2);
+        PORTB &= ~(1 << PB2);
+        shift(2);
         break;
 
     case left_right:

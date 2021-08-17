@@ -55,10 +55,15 @@ void setupTimer1();
 ISR(TIMER1_COMPA_vect);
 
 /**
- * @brief stopt Timer1 for the period of driving
+ * @brief stop Timer1 
  * 
  */
 void stopTimer1();
+/**
+ * @brief start Timer1
+ * 
+ */
+void startTimer1();
 
 void setDutyCycle(uint8_t pin, uint8_t value);
 

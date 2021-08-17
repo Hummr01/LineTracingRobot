@@ -3,6 +3,7 @@
 #include "iessensors.h"
 #include <stdio.h>
 #include "iessensor_lights.h"
+#include <util/delay.h>
 
 
 
@@ -63,6 +64,10 @@ ISR(TIMER1_COMPB_vect) {
 
 void stopTimer1(){
   TCCR1B = 0;
+}
+
+void startTimer1(){
+  TCCR1B |= (1 << CS12) | (1 << CS10);
 }
 
 /* Sets duty-cycle at pin PD5 or PD6 (OC0A or OC0B)
@@ -237,7 +242,7 @@ void left_turn(){
          case all_three:
          break;
 
-         //reset timer1 
+         
          default:
          TCNT1 = 0;                        //reset Timer1
          t1_count =0;
@@ -252,6 +257,38 @@ void left_turn(){
     switch (state){
 
       case all_three:
+
+        static short round_count= 0;
+        char strbuff[17];
+         if(round_count < 4) {
+           round_count++;
+           sprintf(strbuff, "ROUND %u\n", round_count);
+           USART_print(strbuff);
+           forward();
+           break;
+         }else {
+           stop();
+           setupTimer1();
+           t1_count =0;
+           while(t1_count < 60){
+            if(check_state() != all_three){
+              t1_count = 0;
+              round_count = 0;
+              break;
+            }  
+            }if (t1_count == 60){
+              round_count = 0;
+              stopTimer1();
+              forward();
+              break;
+            }
+            
+          break;
+            
+           }
+         
+
+
         forward();
         break;
 

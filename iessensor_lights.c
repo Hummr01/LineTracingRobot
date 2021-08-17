@@ -33,8 +33,11 @@ void reset() {
 }
 
 void blink() {
-    PORTB ^= (1 << PB2);
-    shift(3); 
+    for (short i = 0; i < 5; i++){
+        PORTB ^= (1 << PB2);
+        shift(3);
+    }
+     
 }
 
 

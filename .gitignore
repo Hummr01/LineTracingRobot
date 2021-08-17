@@ -5,3 +5,4 @@ Simu/linienverfolgung_register_backup.simu
 Simu/Makefile
 tmpfile
 tmpfile.hex
+workspace.code-workspace

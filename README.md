@@ -1,3 +1,22 @@
-# LineTracingRobot
+### Program Execution
 
-Simple C Programm for a robot to trace a black line using light sensors
+To flash the programm to the Arduino ATMEGA328p use following commands:
+
+Change directory in to LineTracingRobot directory
+
+`cd /LineTracingRobot`
+
+Execute make
+
+`make`
+0
+
+**Create Documentation**
+
+Change directory in to LineTracingRobot directory
+
+`cd /LineTracingRobot`
+
+Execute make
+
+`make documentation`

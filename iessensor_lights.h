@@ -9,9 +9,6 @@
 #ifndef IESSENSOR_LIGHTS
 #define IESSENSOR_LIGHTS
 
-
-
-
 /**
  * @brief Shift method for the 4-bit shift register to place bit to right
  * register output
@@ -26,9 +23,7 @@ void shift(uint8_t count);
  */
 void reset();
 
-
 void light_init();
-
 
 /**
  * @brief Handles sensor light to show which sensor is detecting line and
@@ -37,12 +32,10 @@ void light_init();
  */
 void sensor_lights(enum lf_state state);
 
-
 /**
  * @brief let all leds blink
  * 
  */
 void blink();
-
 
 #endif

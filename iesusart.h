@@ -13,21 +13,13 @@
 #define F_CPU 16E6
 #endif
 
-//Set DEBUG to 1 for debug information
-#define DEBUG 1
+///Set DEBUG to 1 for debug information
+#define DEBUG 0
 
 /// Desired baudrate
 #define BAUD 9600
 /// What to write into the UBRR register
-#define UBRR_SETTING F_CPU/16.0/BAUD-1
-
-/**
- * @brief 
- * Reads a single byte out of the USART receive buffer.
- * A good way to use this would be calling it from an receive interrupt serice routine
- * @return received byte
- */
-unsigned char USART_receiveByte(void);
+#define UBRR_SETTING F_CPU / 16.0 / BAUD - 1
 
 /**
  * @brief Writes a single byte to the USART transmit buffer
@@ -39,6 +31,20 @@ void USART_transmitByte(unsigned char data);
  * @brief Transmittes a string (char by char) until '\0’ is reached
  */
 void USART_print(const char *c);
+
+/**
+ * @brief Print current round count given as param
+ * 
+ * @param round_count current round count 
+ */
+void USART_round_print(unsigned short round_count);
+
+/**
+ * @brief Print current timer_count
+ * 
+ * @param t1_count
+ */
+void USART_timer_print(unsigned short t1_count);
 
 /**
  * @brief Sets up the USART port (The USART baudrate register)

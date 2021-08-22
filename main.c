@@ -6,36 +6,30 @@
 #include "iessensors.h"
 #include "iessensor_lights.h"
 
+void robot_init()
+{
 
-
-void robot_init() {
-
-    /*Initialize USART port*/
+    ///Initialize USART port
     USART_init(UBRR_SETTING);
 
-    /*Initialze analog pins and configure ADC pins aswell as motors*/    
+    ///Initialze analog pins and configure ADC pins aswell as motors
     sensor_init();
 
-    /*Initialize motors*/
+    ///Initialize motors
     motors_init();
-    
-    /*INIT  LIGHTS*/
+
+    ///INIT  LIGHTS
     light_init();
 
     USART_print("SETUP FINISHED!\n");
 }
 
-
-
-int main(void){
-
+int main(void)
+{
 
     robot_init();
-    
+
     follow_line();
 
-
     return 0;
-
-
 }

@@ -6,3 +6,4 @@ Simu/Makefile
 tmpfile
 tmpfile.hex
 workspace.code-workspace
+html

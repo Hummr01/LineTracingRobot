@@ -4,7 +4,7 @@ To flash the programm to the Arduino ATMEGA328 use following commands:
 
 Change directory in to LineTracingRobot directory.
 
-cd /LineTracingRobot
+`cd /LineTracingRobot`
 
 Execute make
 

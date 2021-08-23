@@ -9,3 +9,4 @@ workspace.code-workspace
 html
 main.hex
 Simu
+compile.sh

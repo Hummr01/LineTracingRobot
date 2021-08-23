@@ -1,13 +1,15 @@
 #include <avr/io.h>
 #include "iessensors.h"
 #include "iesusart.h"
-#include "iessensor_lights.h"
+#include "ieslights.h"
 #include <stdio.h>
 #include <util/delay.h>
 
 void light_init()
 {
+    //Set PB2 as output
     DDRB |= (1 << DD2);
+    //Set PD4 as output
     DDRD |= (1 << DD4);
 
     USART_print("LIGHTS READY!\n");
@@ -22,10 +24,6 @@ void shift(uint8_t count)
     }
 }
 
-/**
- * @brief Reset register.
- * 
- */
 void reset()
 {
     PORTB &= ~(1 << PB2);
@@ -34,17 +32,12 @@ void reset()
 
 void blink()
 {
+    //Invert PB2
     PORTB ^= (1 << PB2);
     shift(3);
     _delay_ms(200);
 }
 
-/**
- * @brief Handles sensor light to show which sensor is detecting line and
- * which is not.
- * 
- * @param state current linefollower state.
- */
 void sensor_lights(enum lf_state state)
 {
 

@@ -9,7 +9,6 @@ Change directory in to LineTracingRobot directory
 Execute make
 
 `make`
-0
 
 **Create Documentation**
 

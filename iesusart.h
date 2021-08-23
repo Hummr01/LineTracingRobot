@@ -8,19 +8,47 @@
 #ifndef IESUSART_h
 #define IESUSART_h
 
+/** @name USART SETUP
+*  Macros for setting up the cummunication via USART for ATMEGA328
+* 
+*/
+///@{
+
 /// CPU clock speed
 #ifndef F_CPU
 #define F_CPU 16E6
 #endif
 
-///Set DEBUG to 1 for debug information
-#define DEBUG 0
-
 /// Desired baudrate
 #define BAUD 9600
 /// What to write into the UBRR register
 #define UBRR_SETTING F_CPU / 16.0 / BAUD - 1
+///@}
+/** @name DEBUG
+* 
+*/
+///@{
+///Set DEBUG to 1 for debug information
+#define DEBUG 0
+///@}
 
+/**
+ * @name SETUP
+ * 
+ */
+///@{
+/**
+ * @brief Sets up the USART port (The USART baudrate register)
+ * @param ubrr Content to write into the UBRR register
+ */
+void USART_init(unsigned long ubrr);
+///@}
+
+/**
+ * @name Print
+ * 
+ */
+///@{
 /**
  * @brief Writes a single byte to the USART transmit buffer
  * @param data Byte that shall be transmitted
@@ -45,11 +73,6 @@ void USART_round_print(unsigned short round_count);
  * @param t1_count
  */
 void USART_timer_print(unsigned short t1_count);
-
-/**
- * @brief Sets up the USART port (The USART baudrate register)
- * @param ubrr Content to write into the UBRR register
- */
-void USART_init(unsigned long ubrr);
+///}@
 
 #endif

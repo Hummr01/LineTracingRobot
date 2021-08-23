@@ -4,7 +4,7 @@
 #include "iesusart.h"
 #include "iesmotors.h"
 #include "iessensors.h"
-#include "iessensor_lights.h"
+#include "ieslights.h"
 
 void robot_init()
 {

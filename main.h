@@ -9,14 +9,6 @@
  * 
  */
 
-#include <avr/io.h>
-#include <stdio.h>
-
-#include "iesusart.h"
-#include "iesmotors.h"
-#include "iessensors.h"
-#include "iessensor_lights.h"
-
 /**
  * @brief Setup all ports for light, motors and sensors
  * 

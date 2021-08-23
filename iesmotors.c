@@ -2,7 +2,6 @@
 #include "iesusart.h"
 #include "iessensors.h"
 #include <stdio.h>
-#include "iessensor_lights.h"
 #include <util/delay.h>
 #include "main.h"
 #include <avr/io.h>
@@ -218,6 +217,7 @@ void follow_line()
     enum lf_state state = check_state();
     enum lf_state previous_state = 0;
 
+    //while t1_count under 15 check if robot is on start if not reset timer
     if (t1_count < 15)
     {
 
@@ -240,10 +240,10 @@ void follow_line()
     {
 
       stopTimer1();
-      USART_print("GO!\n");
       switch (state)
       {
 
+        //count rounds
         static short round_count_buffer = 0;
         static short round_count = 0;
       case all_three:
@@ -263,12 +263,14 @@ void follow_line()
           forward();
           break;
         }
+
         if (round_count == 3)
         {
           stop();
           USART_print("YAY, FINISHED!\n");
           setupTimer1();
           t1_count = 0;
+          //wait 60s and check if robot gets moved of the start field if so reset
           while (t1_count < 60)
           {
             USART_timer_print(t1_count);
@@ -280,6 +282,7 @@ void follow_line()
               break;
             }
           }
+          //after 60s go again
           if (t1_count == 60)
           {
             round_count = 0;

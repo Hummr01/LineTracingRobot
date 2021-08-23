@@ -62,7 +62,7 @@
 ///@}
 
 ///Round count buffer for counting in going signals to count one round
-#define ROUND_COUNT_BUFFER 20
+#define ROUND_COUNT_BUFFER 60
 
 /** @name SPEED
 *   Values for the duty cycle 0 is the lowest 255 the max value 
@@ -77,7 +77,7 @@
 #define SPEED_MAX 190
 ///@}
 
-///Compare value for the 15s timer counter for a prescaler of 1024
+///Compare Match value for the 15s timer counter for a prescaler of 1024
 #define T1_COMP 15625
 
 /**
@@ -86,18 +86,26 @@
  */
 void motors_init();
 
-void setupTimer0(void);
-
 /**
- * @brief Global timer counter for waiting time on start and end 
+ * @brief Setup Timer0
+ * 
+ * @details Setup Timer0 with a prescaler of 64 and PWM Mode to Fast
+ *  
  * 
  */
+void setupTimer0(void);
+
+//Make  Global timer counter for waiting time on start and end
 volatile static unsigned short t1_count = 0;
 
 /**
  * 
  *@brief setup Timer1 for start function (16 bit)
- * 
+ *
+ *
+ * @details Setup Timer1 with prescaler of 1024 and a Compare Match Interupt of 
+ * the value of #T1_COMP which trigger #ISR(TIMER1_COMPA_vect) 
+ *  
  */
 void setupTimer1();
 
@@ -114,14 +122,14 @@ ISR(TIMER1_COMPA_vect);
 void stopTimer1();
 
 /**
- * @details Sets duty-cycle at pin PD5 or PD6 which defined in the with '#LEFT_SIDE' and 
+ * @details Sets duty-cycle at pin PD5 or PD6 which defined in the with #LEFT_SIDE and 
  * '#RIGHT_SIDE'
- * to a value (0 - 255 = 0% - 100%). Good Defined values are '#SPEED_HALF' and 
- * '#SPEED_MAX'.
+ * to a value (0 - 255 = 0% - 100%). Good Defined values are #SPEED_HALF and 
+ * #SPEED_MAX.
  * 
  * @brief Set the Duty Cycle object
  * 
- * @param pin Set to '#LEFT_SIDE' or '#RIGHT_SIDE'
+ * @param pin Set to #LEFT_SIDE or #RIGHT_SIDE
  * @param value 0-255 
  * 
  * @attention Timer0 needs to be setup before usage.
@@ -131,7 +139,11 @@ void setDutyCycle(uint8_t pin, uint8_t value);
 
 /**
  * @brief 
- * Steering logic depending on the state given by check_state.
+ * Steering logic depending on the state given by #check_state().
+ * 
+ * 
+ * @details Additional to the steerign logic there is the start and finish logic 
+ * implemnted
  */
 
 void follow_line();

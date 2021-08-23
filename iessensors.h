@@ -9,7 +9,9 @@
 #ifndef IESSENSORS
 #define IESSENSORS
 
-/** @name SENSOR PINS
+#include <stdint.h>
+
+/** @anchor here @name SENSOR PINS
 * 
 */
 ///@{
@@ -34,7 +36,12 @@
  */
 void sensor_init();
 
-///Reads
+/**
+ * @brief Reads value of the ADC on a given sensor
+ *
+ * @param channel Linefollower sensor Pins which are defined \ref here
+ * @return uint16_t ADCvalue 
+ */
 uint16_t ADC_Read(uint8_t channel);
 
 ///Returns the Average ADCValue
@@ -56,7 +63,7 @@ enum lf_state
 /**
  * @brief Returns current state of the sensor
  * 
- * @return lf_state state current sensor combination
+ * @return A value of #lf_state 
  */
 enum lf_state check_state();
 

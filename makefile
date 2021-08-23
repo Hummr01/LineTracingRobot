@@ -1,6 +1,6 @@
 
 
-FILES = main.c iesmotors.c iessensors.c iesusart.c iessensor_lights.c
+FILES = main.c iesmotors.c iessensors.c iesusart.c ieslights.c
 
 all: compile flash clean
 

@@ -3,7 +3,7 @@
 #include "iessensors.h"
 #include "iesusart.h"
 #include <stdio.h>
-#include "iessensor_lights.h"
+#include "ieslights.h"
 
 void sensor_init()
 {
